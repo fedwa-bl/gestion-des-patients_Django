@@ -1,0 +1,64 @@
+{% extends 'layout.html' %}
+{% block content %}
+
+
+    <div class="card mt-3">
+        <div class="card-header">
+            <div class="input-group">
+                <a class="navbar-brand" href="/hopital">Liste des patients </a>
+                <a class="navbar-brand" href="#">Liste des medecins </a>
+            </div>
+        </div>
+        <div class="card-header">
+            <div class="input-group">
+              <div class="form-outline">
+                  <form  action="/hopital/searchMed" method="POST" >
+        {% csrf_token %}
+        <input type="text" name="q" placeholder="Search ">
+        <button type="submit"   class="btn btn-outline-success">Search</button>
+      </form>
+            </div>
+        </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+        <thead>
+            <tr>
+              <th scope="col">Nom</th>
+              <th scope="col">Prenom</th>
+              <th scope="col">Specialité</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for m in medecins_list %}
+            <tr>
+              <td>{{m.nom}}</td>
+              <td>{{m.prenom}}</td>
+              <td>{{m.specialite}}</td>
+              <td><a href="/hopital/rendez_vous/{{ m.id }}" class="btn btn-outline-success">Rendez-vous</a></td>
+            </tr>
+          {% endfor %}
+          </tbody>
+            </table>
+           <span >Page {{medecins_list.number}}of {{medecins_list.paginator.num_pages}}</span>
+
+              <ul class="pagination">
+
+                        {% if medecins_list.has_previous %}
+                        <li class="page-item active"><a class="page-link" href="?page=1" >&laquo Fist</a></li>
+				        <li class="page-item active"><a class="page-link" href="?page={{medecins_list_page_number}}" >Previous</a></li>
+                        {% endif %}
+
+                        {% if medecins_list.has_next %}
+                        <li class="page-item active"><a class="page-link" href="?page={{medecins_list.next_page_number}}" >Next</a></li>
+				        <li class="page-item active"><a class="page-link" href="?page={{medecins_list.paginator.num_pages}}" >Last &raquo</a></li>
+
+
+                        {% endif %}
+
+                    </li>
+              </ul>
+        </div>
+    </div>
+{% endblock content %}

@@ -1,0 +1,35 @@
+{% extends 'layout.html'%}
+{% block content %}
+{%if q%}
+<div class="card-body">
+            <table class="table table-hover">
+        <thead>
+            <tr>
+              <th scope="col">Nom</th>
+              <th scope="col">Prenom</th>
+              <th scope="col">Email</th>
+              <th scope="col">Date de Naissance</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for p in patient %}
+            <tr>
+              <td>{{p.nom}}</td>
+              <td>{{p.prenom}}</td>
+              <td>{{p.email}}</td>
+              <td>{{p.ddn}}</td>
+              <td>
+                  <a href="/hopital/details/{{ p.id }}" class="btn btn-sm btn-info ">Show</a>
+                  <a href="/hopital/update/{{ p.id }}" class="btn btn-sm btn-primary">Edit</a>
+                  <a href="/hopital/delete/{{ p.id }}" class="btn btn-sm btn-danger" onclick="return confirm('Sur ?');">Supprimer</a>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+            </table>
+{%else%}
+<h1> Patient not found</h1>
+{%endif%}
+    </div>
+{% endblock content %}

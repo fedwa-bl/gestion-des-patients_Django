@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="card mt-3">
+        <div class="card-header">
+            <div class="input-group">
+                <h3>Rendez-vous</h3>
+            </div>
+        </div>
+    <ul class="list-group">
+
+        <li class="list-group-item active">ID : {{ rdv.id }}</li>
+        <li class="list-group-item">Date : {{ rdv.date }}</li>
+        <li class="list-group-item">Annulé : {{ rdv.annuleYN }}</li>
+        <li class="list-group-item">Patient : {{ rdv.patient }}</li>
+        <li class="list-group-item">Medecin : {{ rdv.medecin }}</li>
+    </ul>
+</div>
+{% endblock content %}

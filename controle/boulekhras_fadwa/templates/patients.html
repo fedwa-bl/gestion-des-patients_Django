@@ -1,0 +1,78 @@
+{% extends 'layout.html' %}
+{% block content %}
+    <div class="row justify-content-between mt-3">
+        <h2 class="col-4">{{ title|title }}</h2>
+        <a class="btn btn-success col-2" href="/hopital/form">Add</a>
+    </div>
+
+    <div class="card mt-3">
+        <div class="card-header">
+            <div class="input-group">
+                <a class="navbar-brand" href="#">Liste des patients </a>
+                <a class="navbar-brand" href="/medecin">Liste des medecins </a>
+            </div>
+        </div>
+        <div class="card-header">
+            <div class="input-group">
+              <div class="form-outline">
+                   <form  action="/hopital/search" method="POST" >
+                    {% csrf_token %}
+                    <input type="text" name="q" placeholder="Search ">
+                    <button type="submit"   class="btn btn-outline-success">Search</button>
+                    </form>
+            </div>
+        </div>
+        </div>
+        <div class="card-body">
+            <table class="table table-hover">
+        <thead>
+            <tr>
+                <th></th>
+              <th scope="col">Nom</th>
+              <th scope="col">Prenom</th>
+              <th scope="col">Email</th>
+              <th scope="col">Date de Naissance</th>
+              <th scope="col">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+
+            {% for p in patient_list %}
+            <tr>
+              <td><a href="/hopital/rendez_vous/{{ p.id }}" class="btn btn-outline-success">Rendez-vous</a></td>
+              <td>{{p.nom}}</td>
+              <td>{{p.prenom}}</td>
+              <td>{{p.email}}</td>
+              <td>{{p.ddn}}</td>
+              <td>
+                  <a href="/hopital/details/{{ p.id }}" class="btn btn-sm btn-info ">Show</a>
+                  <a href="/hopital/update/{{ p.id }}" class="btn btn-sm btn-primary">Edit</a>
+                  <a href="/hopital/delete/{{ p.id }}" class="btn btn-sm btn-danger" onclick="return confirm('Sur ?');">Delete</a>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+            </table>
+
+            <span >Page {{patient_list.number}}of {{patient_list.paginator.num_pages}}</span>
+
+              <ul class="pagination">
+
+                        {% if patient_list.has_previous %}
+                        <li class="page-item active"><a class="page-link" href="?page=1" >&laquo Fist</a></li>
+				        <li class="page-item active"><a class="page-link" href="?page={{patient_list_page_number}}" >Previous</a></li>
+                        {% endif %}
+
+                        {% if patient_list.has_next %}
+                        <li class="page-item active"><a class="page-link" href="?page={{patient_list.next_page_number}}" >Next</a></li>
+				        <li class="page-item active"><a class="page-link" href="?page={{patient_list.paginator.num_pages}}" >Last &raquo</a></li>
+
+
+                        {% endif %}
+
+                    </li>
+              </ul>
+        </div>
+    </div>
+
+{% endblock content %}
